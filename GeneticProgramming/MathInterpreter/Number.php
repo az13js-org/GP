@@ -29,4 +29,20 @@ class Number implements Terminal
     {
         return $this->value;
     }
+
+    /**
+     * @return object 返回当前Node包含的子Node
+     */
+    public function getChildNodes()
+    {
+        return [];
+    }
+
+    /**
+     * @return object 返回当前Node包含的所有子Node
+     */
+    public function getAllChildNodes()
+    {
+        return [];
+    }
 }

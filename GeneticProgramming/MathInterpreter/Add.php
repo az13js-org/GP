@@ -40,4 +40,44 @@ class Add implements Nonterminal
         $this->childNodes[] = $node;
         return true;
     }
+
+    /**
+     * @return object 返回当前Node包含的子Node
+     */
+    public function getChildNodes()
+    {
+        return $this->childNodes;
+    }
+
+    /**
+     * @return object 返回当前Node包含的所有子Node
+     */
+    public function getAllChildNodes()
+    {
+        return $this->loopChildNodes($this->childNodes);
+    }
+
+    /**
+     * 移除此node下的所有节点
+     */
+    public function removeChildNodes()
+    {
+        $this->childNodes = [];
+    }
+
+    public function __clone()
+    {
+        foreach ($this->childNodes as $k => $v) {
+            $this->childNodes[$k] = clone $this->childNodes[$k];
+        }
+    }
+
+    private function loopChildNodes($nodes)
+    {
+        $nodesList = $nodes;
+        foreach ($nodes as $node) {
+            $nodesList = array_merge($nodesList, $this->loopChildNodes($node->getChildNodes()));
+        }
+        return $nodesList;
+    }
 }
