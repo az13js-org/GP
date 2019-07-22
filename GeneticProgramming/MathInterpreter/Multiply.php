@@ -60,6 +60,26 @@ class Multiply implements Nonterminal
         $this->childNodes = [];
     }
 
+    /**
+     * 返回字符串解析式
+     *
+     * @return string
+     */
+    public function getParseString()
+    {
+        if ($this->childNodes[0] instanceof Add) {
+            $left = '(' . $this->childNodes[0]->getParseString() . ')';
+        } else {
+            $left = $this->childNodes[0]->getParseString();
+        }
+        if ($this->childNodes[1] instanceof Add) {
+            $right = '(' . $this->childNodes[1]->getParseString() . ')';
+        } else {
+            $right = $this->childNodes[1]->getParseString();
+        }
+        return $left . '*' . $right;
+    }
+
     public function __clone()
     {
         foreach ($this->childNodes as $k => $v) {

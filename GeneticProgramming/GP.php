@@ -105,4 +105,4 @@ function crossover($individuala, $individualb)
     return $individuala_clone;
 }
 
-var_dump(crossover(individual(), individual()));
+//var_dump(crossover(individual(), individual()));

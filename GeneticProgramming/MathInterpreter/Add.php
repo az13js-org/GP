@@ -65,6 +65,16 @@ class Add implements Nonterminal
         $this->childNodes = [];
     }
 
+    /**
+     * 返回字符串解析式
+     *
+     * @return string
+     */
+    public function getParseString()
+    {
+        return $this->childNodes[0]->getParseString() . '+' . $this->childNodes[1]->getParseString();
+    }
+
     public function __clone()
     {
         foreach ($this->childNodes as $k => $v) {

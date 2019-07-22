@@ -45,4 +45,14 @@ class Number implements Terminal
     {
         return [];
     }
+
+    /**
+     * 返回字符串解析式
+     *
+     * @return string
+     */
+    public function getParseString()
+    {
+        return $this->value;
+    }
 }
