@@ -12,3 +12,4 @@ Show($b);
 Show($c);
 variation($c);
 Show($c);
+echo fitness($c) . PHP_EOL;

@@ -69,11 +69,6 @@ function individual()
     return $root;
 }
 
-//$tree = individual();
-//var_dump($tree);
-//var_dump($tree->getValue());
-//var_dump($tree->getAllChildNodes());
-
 /**
  * 获取部分节点交叉生成新树
  *
@@ -178,8 +173,7 @@ function variation($individual)
     }
 }
 
-//$z = individual();
-//var_dump($z);
-//variation($z);
-//var_dump($z);
-//var_dump(crossover(individual(), individual()));
+function fitness($individual)
+{
+    return 1 / (pow(100 - $individual->getValue(), 2) + 1);
+}
