@@ -7,3 +7,13 @@
 ## 维基百科的解释
 
 In artificial intelligence, genetic programming (GP) is a technique of evolving programs, starting from a population of unfit (usually random) programs, fit for a particular task by applying operations analogous to natural genetic processes to the population of programs. It is essentially a heuristic search technique often described as 'hill climbing', i.e. searching for an optimal or at least suitable program among the space of all programs.
+
+## 运行 demo 的方法
+
+```shell
+php GeneticProgramming/run.php
+```
+
+### 说明:
+
+demo 只包含加法和乘法两种运算，进化目标是生成结果为 100 的数学表达式。
