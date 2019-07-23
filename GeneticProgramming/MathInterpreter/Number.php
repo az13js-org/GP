@@ -31,6 +31,16 @@ class Number implements Terminal
     }
 
     /**
+     * 设置该节点的值
+     *
+     * @return float
+     */
+    public function setValue(float $value)
+    {
+        $this->value = $value;
+    }
+
+    /**
      * @return object 返回当前Node包含的子Node
      */
     public function getChildNodes()

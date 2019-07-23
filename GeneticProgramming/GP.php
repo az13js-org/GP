@@ -2,6 +2,7 @@
 require_once 'autoload.php';
 
 $number = [1,2,3];
+$variation = 0.5;
 
 /**
  * 随机初始化一个节点
@@ -105,4 +106,80 @@ function crossover($individuala, $individualb)
     return $individuala_clone;
 }
 
+function _number_variation($node)
+{
+    global $number;
+    $temp = $number;
+    foreach ($temp as $k => $v) {
+        if (abs($v - $node->getValue()) < 0.1) {
+            unset($temp[$k]);
+            break;
+        }
+    }
+    $node->setValue($temp[array_rand($temp)]);
+}
+
+function switch_node($node)
+{
+    if (!($node instanceof MathInterpreter\Multiply || $node instanceof MathInterpreter\Add)) {
+        throw new Exception('Error instanceof');
+    }
+    list($node1, $node2) = $node->getChildNodes();
+    if (mt_rand() / mt_getrandmax() > 0.5) {
+        if ($node1 instanceof MathInterpreter\Number) {
+            _number_variation($node1);
+        } elseif ($node1 instanceof MathInterpreter\Multiply) {
+            $temp = new MathInterpreter\Add();
+            foreach ($node1->getChildNodes() as $child) {
+                $temp->add($child);
+            }
+            $node1 = $temp;
+        } else {
+            $temp = new MathInterpreter\Multiply();
+            foreach ($node1->getChildNodes() as $child) {
+                $temp->add($child);
+            }
+            $node1 = $temp;
+        }
+    } else {
+        if ($node2 instanceof MathInterpreter\Number) {
+            _number_variation($node2);
+        } elseif ($node2 instanceof MathInterpreter\Multiply) {
+            $temp = new MathInterpreter\Add();
+            foreach ($node2->getChildNodes() as $child) {
+                $temp->add($child);
+            }
+            $node2 = $temp;
+        } else {
+            $temp = new MathInterpreter\Multiply();
+            foreach ($node2->getChildNodes() as $child) {
+                $temp->add($child);
+            }
+            $node2 = $temp;
+        }
+    }
+    return [$node1, $node2];
+}
+
+function variation($individual)
+{
+    global $variation, $number;
+    foreach (array_merge([$individual], $individual->getAllChildNodes()) as $node) {
+        if (mt_rand() / mt_getrandmax() <= $variation) {
+            if ($node instanceof MathInterpreter\Number) {
+                _number_variation($node);
+            } else {
+                list($node1, $node2) = switch_node($node);
+                $node->removeChildNodes();
+                $node->add($node1);
+                $node->add($node2);
+            }
+        }
+    }
+}
+
+//$z = individual();
+//var_dump($z);
+//variation($z);
+//var_dump($z);
 //var_dump(crossover(individual(), individual()));
