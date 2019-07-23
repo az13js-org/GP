@@ -1,9 +1,6 @@
 <?php
 require_once 'autoload.php';
 
-$number = [1,2,3];
-$variation = 0.5;
-
 /**
  * 随机初始化一个节点
  */
@@ -171,9 +168,45 @@ function variation($individual)
             }
         }
     }
+    return $individual;
 }
 
 function fitness($individual)
 {
     return 1 / (pow(100 - $individual->getValue(), 2) + 1);
+}
+
+function population()
+{
+    global $size;
+    $population = [];
+    for ($i = 0; $i < $size; $i++) {
+        $population[] = individual();
+    }
+    return $population;
+}
+
+function select($population)
+{
+    $fitnesses = array_map('fitness', $population);
+    $pointer = mt_rand() / mt_getrandmax() * array_sum($fitnesses);
+    $left = 0;
+    foreach ($fitnesses as $i => $fitness) {
+        if ($pointer <= $left) {
+            return $population[$i];
+        }
+        $left += $fitness;
+    }
+    return $population[$i];
+}
+
+function maxfitness($population)
+{
+    return max(array_map('fitness', $population));
+}
+
+function maxfitnessindividual($population)
+{
+    $fitnesses = array_map('fitness', $population);
+    return $population[array_search(max($fitnesses), $fitnesses)];
 }
